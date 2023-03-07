@@ -1,7 +1,7 @@
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class Printer implements InterfacePrinter {
+public class Printer implements PrinterInterface {
 
     private double averageValue;
     private Map<String, Integer> treeMap;

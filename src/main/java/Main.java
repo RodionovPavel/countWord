@@ -12,10 +12,4 @@ public class Main {
     }
 
 
-
-
-
-
-
-
 }
