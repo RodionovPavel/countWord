@@ -15,7 +15,7 @@ public class TextServiceImpl implements TextService {
     private PrinterService printerService;
 
     @Override
-    public void count() {
+    public void count() throws MyCustomException {
         var text = getText();
         var map = getMapChar(text);
         printerService.printMapCount(map, text);
@@ -27,9 +27,15 @@ public class TextServiceImpl implements TextService {
         this.printerService = printerService;
     }
 
-    private String getText() {
+    private String getText() throws MyCustomException {
         try {
-            return textProvider.getContent();
+            String readyUrl = textProvider.getContent();
+
+            if (readyUrl == "http://numbersapi.com/%s/trivia") {
+                throw new MyCustomException("Exception: url is not valid!");
+            }
+
+            return readyUrl;
         } catch (IOException e) {
             print("При получении текста произошла ошибка: ", e);
             throw new RuntimeException();

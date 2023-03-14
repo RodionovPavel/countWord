@@ -4,6 +4,7 @@ import service.PrinterService;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static utils.LoggerUtils.print;
 
@@ -44,36 +45,44 @@ public class PrinterServiceImpl implements PrinterService {
 
         if (!keys.isEmpty()) {
             System.out.print("Символы, которые соответствуют условию наиболее близкого значения частоты к среднему значению: ");
-            Iterator iterator = keys.iterator();
-            while (iterator.hasNext()) {
-                String a = (String) iterator.next();
-                byte[] bytes = a.getBytes(StandardCharsets.UTF_8);
-                System.out.print(a + "(" + bytes[0] + ")");
-                if (iterator.hasNext()) {
-                    System.out.print(", ");
-                } else {
-                    System.out.print(".");
-                }
-            }
+//            Iterator iterator = keys.iterator();
+//            while (iterator.hasNext()) {
+//                String a = (String) iterator.next();
+//                byte[] bytes = a.getBytes(StandardCharsets.UTF_8);
+//                System.out.print(a + "(" + bytes[0] + ")");
+//                if (iterator.hasNext()) {
+//                    System.out.print(", ");
+//                } else {
+//                    System.out.print(".");
+//                }
+//            }
+            String lettersWithSymbols = keys.stream()
+                    .map(s -> {
+                        byte[] bytes = s.getBytes(StandardCharsets.UTF_8);
+                        return s + "(" + bytes[0] + ")";
+                    })
+                    .collect(Collectors.joining(", "));
+            System.out.println(lettersWithSymbols.concat("."));
+
         } else {
             System.out.println("Увы, но нет символов, которые соответствуют условию наиболее близкого значения частоты к среднему значению.");
         }
     }
 
-    private void printText(String s) {
-        print(s);
+    private void printText(String text) {
+        print(text);
     }
 
-    private String fixRightEnd(int n) {
+    private String fixRightEnd(int number) {
 
         // для чисел более 10 и менее 20
-        int result = n % 100;
+        int result = number % 100;
         if (result >= 10 && result <= 20) {
             return "раз";
         }
 
         // для всех остальных вычисляем последнее число
-        result = n % 10;
+        result = number % 10;
         return switch (result) {
             case 2, 3, 4 -> "раза";
             default -> "раз";

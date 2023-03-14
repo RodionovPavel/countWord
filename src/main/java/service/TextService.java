@@ -1,7 +1,9 @@
 package service;
 
+import service.impl.MyCustomException;
+
 public interface TextService {
 
-    void count();
+    void count() throws MyCustomException;
 
 }
